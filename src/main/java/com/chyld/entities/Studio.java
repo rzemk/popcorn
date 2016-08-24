@@ -21,6 +21,11 @@ public class Studio {
         this.updatedAt = new Date();
     }
 
+    public Studio(int id) {
+        this();
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue
     public int getId() {return id;}

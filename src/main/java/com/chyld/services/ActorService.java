@@ -3,41 +3,41 @@ package com.chyld.services;
 import com.chyld.entities.Actor;
 import com.chyld.entities.Movie;
 import com.chyld.entities.Studio;
-import com.chyld.repositories.IStudioRepository;
+import com.chyld.repositories.IActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StudioService {
-    private IStudioRepository repository;
+public class ActorService {
+    private IActorRepository repository;
 
     @Autowired
-    public void setRepository(IStudioRepository repository) {
+    public void setRepository(IActorRepository repository) {
         this.repository = repository;
     }
 
-    public Page<Studio> findAll(int page) {
+    public Page<Actor> findAll(int page) {
         PageRequest pr = new PageRequest(page, 3);
         return this.repository.findAll(pr);
     }
 
-    public Page<Movie> findAllMoviesByStudioId(int id, int page) {
+    public Page<Movie> findAllMoviesByActorId(int id, int page) {
         PageRequest pr = new PageRequest(page, 3);
-        return this.repository.findAllMoviesByStudioId(id, pr);
+        return this.repository.findAllMoviesByActorId(id, pr);
     }
 
-    public Page<Actor> findAllActorsByStudioId(int id, int page) {
+    public Page<Studio> findAllStudiosByActorId(int id, int page) {
         PageRequest pr = new PageRequest(page, 3);
-        return this.repository.findAllActorsByStudioId(id, pr);
+        return this.repository.findAllStudiosByActorId(id, pr);
     }
 
-    public Studio findOne(int id) {
+    public Actor findOne(int id) {
         return this.repository.findOne(id);
     }
 
-    public Studio create(Studio s) {
+    public Actor create(Actor s) {
         return this.repository.save(s);
     }
 
@@ -45,10 +45,4 @@ public class StudioService {
         this.repository.delete(id);
     }
 
-    public Studio update(int id, Studio s) {
-        Studio studio = this.repository.findOne(id);
-        studio.setName(s.getName());
-        studio.setEst(s.getEst());
-        return this.repository.save(studio);
-    }
 }

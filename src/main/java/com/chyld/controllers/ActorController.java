@@ -1,46 +1,47 @@
 package com.chyld.controllers;
 
+import com.chyld.entities.*;
 import com.chyld.entities.Actor;
-import com.chyld.entities.Movie;
-import com.chyld.entities.Studio;
-import com.chyld.services.StudioService;
+import com.chyld.entities.Actor;
+import com.chyld.services.ActorService;
+import com.chyld.services.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/studios")
-public class StudioController {
-    private StudioService service;
+@RequestMapping("/actors")
+public class ActorController {
+    private ActorService service;
 
     @Autowired
-    public void setService(StudioService service) {
+    public void setService(ActorService service) {
         this.service = service;
     }
 
     @RequestMapping(path = {"", "/"}, method = RequestMethod.GET)
-    public Page<Studio> index(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+    public Page<Actor> index(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
         return this.service.findAll(page);
     }
 
     @RequestMapping(path = {"/{id}/movies"}, method = RequestMethod.GET)
     public Page<Movie> movies(@PathVariable int id, @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
-        return this.service.findAllMoviesByStudioId(id, page);
+        return this.service.findAllMoviesByActorId(id, page);
     }
 
-    @RequestMapping(path = {"/{id}/actors"}, method = RequestMethod.GET)
-    public Page<Actor> actors(@PathVariable int id, @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
-        return this.service.findAllActorsByStudioId(id, page);
+    @RequestMapping(path = {"/{id}/studios"}, method = RequestMethod.GET)
+    public Page<Studio> studios(@PathVariable int id, @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+        return this.service.findAllStudiosByActorId(id, page);
     }
 
     @RequestMapping(path = {"/{id}"}, method = RequestMethod.GET)
-    public Studio show(@PathVariable int id) {
+    public Actor show(@PathVariable int id) {
         return this.service.findOne(id);
     }
 
     @RequestMapping(path = {"", "/"}, method = RequestMethod.POST)
-    public Studio create(@RequestBody Studio studio) {
+    public Actor create(@RequestBody Actor studio) {
         return this.service.create(studio);
     }
 
@@ -49,8 +50,4 @@ public class StudioController {
         this.service.destroy(id);
     }
 
-    @RequestMapping(path = {"/{id}"}, method = RequestMethod.PUT)
-    public Studio update(@PathVariable int id, @RequestBody Studio studio) {
-        return this.service.update(id, studio);
-    }
 }
